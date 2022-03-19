@@ -1,4 +1,4 @@
-# import-expenses
+# expenses
 
 TODO(avamsi): add a link to Google Sheets that people can copy and use.
 
