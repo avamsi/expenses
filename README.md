@@ -6,4 +6,4 @@ TODO(avamsi): add a link to Google Sheets that people can copy and use.
 ![](https://github.com/avamsi/import-expenses/blob/main/screenshots/aggregate-view.png?raw=true)
 
 ## Monthly View
-![](https://github.com/avamsi/import-expenses/blob/main/screenshots/monthly-review.png?raw=true)
+![](https://github.com/avamsi/import-expenses/blob/main/screenshots/monthly-view.png?raw=true)
