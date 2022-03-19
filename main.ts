@@ -217,7 +217,7 @@ function scheduleTriggers() {
     .create();
 }
 
-function fetchDayjs() {
+function fetchDayjs_() {
   eval(UrlFetchApp.fetch("https://unpkg.com/dayjs").getContentText());
   eval(
     UrlFetchApp.fetch(
@@ -229,7 +229,7 @@ function fetchDayjs() {
 }
 
 function sortSheets() {
-  fetchDayjs();
+  fetchDayjs_();
   const monthNameToNumber = (name: string) => {
     // @ts-ignore
     const date = dayjs(name, "YYYY MMMM", true);
@@ -258,7 +258,7 @@ function deleteSheets() {
   }
 }
 
-function tryGmailMessageToExpense(
+function tryGmailMessageToExpense_(
   message: GoogleAppsScript.Gmail.GmailMessage,
   messageToExpenseClasses: (new (
     _: GoogleAppsScript.Gmail.GmailMessage
@@ -273,7 +273,7 @@ function tryGmailMessageToExpense(
   return null;
 }
 
-function getExpensesByMonth(): Map<string, Expense[]> {
+function getExpensesByMonth_(): Map<string, Expense[]> {
   const expensesByMonth = new Map();
   const sources = [
     {
@@ -302,7 +302,7 @@ function getExpensesByMonth(): Map<string, Expense[]> {
   sources.forEach((source) => {
     for (const thread of GmailApp.search(`${source.query} newer_than:5d`)) {
       for (const message of thread.getMessages()) {
-        const expense = tryGmailMessageToExpense(
+        const expense = tryGmailMessageToExpense_(
           message,
           source.messageToExpenseClasses
         );
@@ -319,7 +319,7 @@ function getExpensesByMonth(): Map<string, Expense[]> {
   return expensesByMonth;
 }
 
-function getOrCreateExpenseSheetByName(
+function getOrCreateExpenseSheetByName_(
   name: string
 ): GoogleAppsScript.Spreadsheet.Sheet {
   const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
@@ -334,12 +334,12 @@ function getOrCreateExpenseSheetByName(
 }
 
 function importExpenses() {
-  fetchDayjs();
-  const expensesByMonth = getExpensesByMonth();
+  fetchDayjs_();
+  const expensesByMonth = getExpensesByMonth_();
   // FIXME: hard-coding.
   const HEADER_SIZE = { rows: 4, columns: 7 };
   expensesByMonth.forEach((expenses, month) => {
-    const sheet = getOrCreateExpenseSheetByName(month);
+    const sheet = getOrCreateExpenseSheetByName_(month);
     if (expenses.length > 0) {
       const lastRow = Math.max(HEADER_SIZE.rows, sheet.getLastRow());
       const existingExpenses = new Set(
