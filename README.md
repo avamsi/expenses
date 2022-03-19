@@ -1,5 +1,7 @@
 # expenses
 
+Import expenses from Gmail to a Google Sheet and track everything in a single place without the data ever leaving your Google acccount.
+
 ## Aggregate View
 
 ![](https://github.com/avamsi/import-expenses/blob/main/screenshots/aggregate-view.png?raw=true)
