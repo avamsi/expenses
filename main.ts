@@ -47,7 +47,7 @@ abstract class GmailMessageToExpense {
     return new Expense(
       date,
       this.category(),
-      this.rawExtract["merchant"],
+      this.rawExtract["merchant"].toUpperCase(),
       this.parsedAmount(),
       this.means(),
       this.identifier
@@ -102,7 +102,7 @@ class AxisCreditCardOld extends GmailMessageToExpense {
     "Axis Bank Credit Card xx(?<card>\\d{4})";
   protected static readonly amountPattern = "Rs.(?<amount>[\\d,.]+) was spent";
   protected static readonly merchantPattern =
-    "at (?<merchant>.+). Your available Credit Limit:";
+    "at (?<merchant>.+). Your available Credit Limit";
   protected static readonly datePattern =
     "on (?<date>\\d{2}-\\w{3}-\\d{2}) \\d{2}:\\d{2}:\\d{2} \\w{2}";
 
@@ -158,6 +158,48 @@ class HdfcCreditCardDebitReversal extends HdfcCreditCard {
   }
 }
 
+abstract class IciciCreditCard extends GmailMessageToExpense {
+  protected static readonly cardPattern =
+    "ICICI Bank Credit Card XX(?<card>\\d{4})";
+  protected static readonly amountPattern = "INR (?<amount>[\\d,.]+)";
+  protected static readonly datePattern = "on (?<date>\\w+ \\d{2}, \\d{4})";
+
+  protected dateFormat(): string {
+    return "MMMM DD, YYYY";
+  }
+
+  protected means(): string {
+    return `ICICI Credit Card ${this.rawExtract["card"]}`;
+  }
+}
+
+class IciciCreditCardDebit extends IciciCreditCard {
+  protected static readonly merchantPattern =
+    "Info: (?<merchant>.+?)(?: \\\\)?. The Available Credit Limit";
+
+  protected pattern(): RegExp {
+    return new RegExp(
+      `${IciciCreditCard.cardPattern} has been used for ` +
+        `a transaction of ${IciciCreditCard.amountPattern} ` +
+        `${IciciCreditCard.datePattern}; \\d{2}:\\d{2}:\\d{2}. ` +
+        IciciCreditCardDebit.merchantPattern
+    );
+  }
+}
+
+class IciciCreditCardDebitReversal extends IciciCreditCard {
+  protected static readonly merchantPattern =
+    "from (?<merchant>.+). We wish to inform you that this refund";
+
+  protected pattern(): RegExp {
+    return new RegExp(
+      `(?<reversal>refund on your) ${IciciCreditCard.cardPattern} ` +
+        `for ${IciciCreditCard.amountPattern} ${IciciCreditCard.datePattern} ` +
+        IciciCreditCardDebitReversal.merchantPattern
+    );
+  }
+}
+
 function sheetName() {
   return SpreadsheetApp.getActiveSheet().getName();
 }
@@ -207,6 +249,15 @@ function sortSheets() {
   }
 }
 
+function deleteSheets() {
+  const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  for (const sheet of spreadsheet.getSheets()) {
+    if (sheet.getName().startsWith("20")) {
+      spreadsheet.deleteSheet(sheet);
+    }
+  }
+}
+
 function tryGmailMessageToExpense(
   message: GoogleAppsScript.Gmail.GmailMessage,
   messageToExpenseClasses: (new (
@@ -238,6 +289,13 @@ function getExpensesByMonth(): Map<string, Expense[]> {
       messageToExpenseClasses: [
         HdfcCreditCardDebit,
         HdfcCreditCardDebitReversal,
+      ],
+    },
+    {
+      query: "credit_cards@icicibank.com",
+      messageToExpenseClasses: [
+        IciciCreditCardDebit,
+        IciciCreditCardDebitReversal,
       ],
     },
   ];
