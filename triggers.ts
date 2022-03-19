@@ -4,9 +4,9 @@ function schedule() {
     .atHour(8)
     .everyDays(1)
     .create();
-  ScriptApp.newTrigger("importExpenses")
+  ScriptApp.newTrigger("refreshAggregate")
     .timeBased()
-    .atHour(16)
+    .atHour(8)
     .everyDays(1)
     .create();
 }
