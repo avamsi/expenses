@@ -329,7 +329,7 @@ function getOrCreateExpenseSheetByName(
   }
   // FIXME: hard-coding.
   return spreadsheet.insertSheet(name, 3, {
-    template: spreadsheet.getSheetByName("Expenses Template"),
+    template: spreadsheet.getSheetByName("Template"),
   });
 }
 
