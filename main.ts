@@ -200,23 +200,6 @@ class IciciCreditCardDebitReversal extends IciciCreditCard {
   }
 }
 
-function sheetName() {
-  return SpreadsheetApp.getActiveSheet().getName();
-}
-
-function scheduleTriggers() {
-  ScriptApp.newTrigger("importExpenses")
-    .timeBased()
-    .atHour(8)
-    .everyDays(1)
-    .create();
-  ScriptApp.newTrigger("importExpenses")
-    .timeBased()
-    .atHour(16)
-    .everyDays(1)
-    .create();
-}
-
 function fetchDayjs_() {
   eval(UrlFetchApp.fetch("https://unpkg.com/dayjs").getContentText());
   eval(
@@ -226,36 +209,6 @@ function fetchDayjs_() {
   );
   // @ts-ignore
   dayjs.extend(dayjs_plugin_customParseFormat);
-}
-
-function sortSheets() {
-  fetchDayjs_();
-  const monthNameToNumber = (name: string) => {
-    // @ts-ignore
-    const date = dayjs(name, "YYYY MMMM", true);
-    if (date.isValid()) {
-      return date.format("YYYY-MM");
-    }
-    return name;
-  };
-  const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
-  const sheets = spreadsheet.getSheets();
-  sheets.sort((a, b) =>
-    monthNameToNumber(a.getName()) > monthNameToNumber(b.getName()) ? -1 : 1
-  );
-  for (let i = 0; i < sheets.length; i++) {
-    spreadsheet.setActiveSheet(sheets[i]);
-    spreadsheet.moveActiveSheet(i + 1);
-  }
-}
-
-function deleteSheets() {
-  const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
-  for (const sheet of spreadsheet.getSheets()) {
-    if (sheet.getName().startsWith("20")) {
-      spreadsheet.deleteSheet(sheet);
-    }
-  }
 }
 
 function tryGmailMessageToExpense_(
