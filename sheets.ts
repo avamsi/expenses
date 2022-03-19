@@ -2,19 +2,9 @@ function sheetName() {
   return SpreadsheetApp.getActiveSheet().getName();
 }
 
-function fetchDayjs_() {
-  eval(UrlFetchApp.fetch("https://unpkg.com/dayjs").getContentText());
-  eval(
-    UrlFetchApp.fetch(
-      "https://unpkg.com/dayjs/plugin/customParseFormat"
-    ).getContentText()
-  );
-  // @ts-ignore
-  dayjs.extend(dayjs_plugin_customParseFormat);
-}
-
 function sortSheets() {
-  fetchDayjs_();
+  // @ts-ignore
+  fetchDayjs();
   const monthNameToNumber = (name: string) => {
     // @ts-ignore
     const date = dayjs(name, "YYYY MMMM", true);

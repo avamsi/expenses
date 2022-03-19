@@ -200,17 +200,6 @@ class IciciCreditCardDebitReversal extends IciciCreditCard {
   }
 }
 
-function fetchDayjs_() {
-  eval(UrlFetchApp.fetch("https://unpkg.com/dayjs").getContentText());
-  eval(
-    UrlFetchApp.fetch(
-      "https://unpkg.com/dayjs/plugin/customParseFormat"
-    ).getContentText()
-  );
-  // @ts-ignore
-  dayjs.extend(dayjs_plugin_customParseFormat);
-}
-
 function tryGmailMessageToExpense_(
   message: GoogleAppsScript.Gmail.GmailMessage,
   messageToExpenseClasses: (new (
@@ -226,7 +215,9 @@ function tryGmailMessageToExpense_(
   return null;
 }
 
-function getExpensesByMonth_(): Map<string, Expense[]> {
+function getExpensesByMonth_(
+  restrictToRecent: boolean
+): Map<string, Expense[]> {
   const expensesByMonth = new Map();
   const sources = [
     {
@@ -253,7 +244,11 @@ function getExpensesByMonth_(): Map<string, Expense[]> {
     },
   ];
   sources.forEach((source) => {
-    for (const thread of GmailApp.search(`${source.query} newer_than:5d`)) {
+    let query = source.query;
+    if (restrictToRecent) {
+      query += " newer_than:5d";
+    }
+    for (const thread of GmailApp.search(query)) {
       for (const message of thread.getMessages()) {
         const expense = tryGmailMessageToExpense_(
           message,
@@ -286,9 +281,10 @@ function getOrCreateExpenseSheetByName_(
   });
 }
 
-function importExpenses() {
-  fetchDayjs_();
-  const expensesByMonth = getExpensesByMonth_();
+function importExpenses_(restrictToRecent: boolean) {
+  // @ts-ignore
+  fetchDayjs();
+  const expensesByMonth = getExpensesByMonth_(restrictToRecent);
   // FIXME: hard-coding.
   const HEADER_SIZE = { rows: 4, columns: 7 };
   expensesByMonth.forEach((expenses, month) => {
@@ -319,4 +315,12 @@ function importExpenses() {
       }
     }
   });
+}
+
+function importAllExpenses() {
+  importExpenses_(/* restrictToRecent= */ false);
+}
+
+function importOnlyRecentExpenses() {
+  importExpenses_(/* restrictToRecent= */ true);
 }
