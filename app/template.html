@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base href="<?!= baseUrl() ?>" target="_top" />
+    <?!= include("app/style") ?>
+  </head>
+  <body>
+    <? for (const table of tables) { ?>
+    <div class="table-wrapper">
+      <table>
+        <? for (const row of table) { ?>
+        <tr>
+          <? for (const cell of row) { ?>
+          <?!= formatCell(cell) ?>
+          <? } ?>
+        </tr>
+        <? } ?>
+      </table>
+    </div>
+    <br />
+    <? } ?>
+  </body>
+</html>
