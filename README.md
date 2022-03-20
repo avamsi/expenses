@@ -1,6 +1,6 @@
 # expenses
 
-Import expenses from Gmail to a Google Sheet and track everything in a single place without the data ever leaving your Google acccount.
+Import expenses from Gmail to a Google Sheet and track everything in a single place without the data ever leaving your Google acccount. (Now with an experimental web app that uses said Google sheet as the data source!)
 
 ## Aggregate View
 
