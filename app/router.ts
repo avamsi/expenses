@@ -74,7 +74,7 @@ function monthlyView_(month: string): GoogleAppsScript.HTML.HtmlOutput {
     sanitizeRange_(transpose_(sheet.getRange("E1:G2").getValues()))
   );
   // FIXME: hard-coding.
-  const body = sanitizeRange_(sheet.getRange("A5:E").getValues());
+  const body = sanitizeRange_(sheet.getRange("A5:E").getValues().reverse());
   template.tables = [header, body];
   return template.evaluate();
 }
