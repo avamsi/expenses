@@ -53,28 +53,26 @@ function sanitizeRange_(range: any[][]) {
 }
 
 function aggregateView_(): GoogleAppsScript.HTML.HtmlOutput {
-  const template = HtmlService.createTemplateFromFile("app/template.html");
+  const sheet =
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Aggregate");
   // FIXME: hard-coding.
-  template.tables = [
-    sanitizeRange_(
-      SpreadsheetApp.getActiveSpreadsheet()
-        .getSheetByName("Aggregate")
-        .getRange("A2:B")
-        .getValues()
-    ),
-  ];
+  const ranges = sanitizeRange_(sheet.getRange("A1:E4").getValues());
+  // FIXME: hard-coding.
+  const months = sanitizeRange_(sheet.getRange("A5:B").getValues());
+  const template = HtmlService.createTemplateFromFile("app/template.html");
+  template.tables = [ranges, months];
   return template.evaluate();
 }
 
 function monthlyView_(month: string): GoogleAppsScript.HTML.HtmlOutput {
-  const template = HtmlService.createTemplateFromFile("app/template.html");
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(month);
   // FIXME: hard-coding.
-  const header = sanitizeRange_(sheet.getRange("A1:C1").getValues()).concat(
+  const totals = sanitizeRange_(sheet.getRange("A1:C1").getValues()).concat(
     sanitizeRange_(transpose_(sheet.getRange("E1:G2").getValues()))
   );
   // FIXME: hard-coding.
-  const body = sanitizeRange_(sheet.getRange("A5:E").getValues().reverse());
-  template.tables = [header, body];
+  const expenses = sanitizeRange_(sheet.getRange("A5:E").getValues().reverse());
+  const template = HtmlService.createTemplateFromFile("app/template.html");
+  template.tables = [totals, expenses];
   return template.evaluate();
 }
