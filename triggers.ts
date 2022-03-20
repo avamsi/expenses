@@ -1,8 +1,12 @@
 function schedule() {
-  ScriptApp.newTrigger("daily").timeBased().atHour(8).everyDays(1).create();
+  ScriptApp.newTrigger("incrementalRefresh")
+    .timeBased()
+    .atHour(8)
+    .everyDays(1)
+    .create();
 }
 
-function daily() {
+function incrementalRefresh() {
   // @ts-ignore
   importOnlyRecentExpenses();
   // @ts-ignore
