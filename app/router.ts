@@ -57,7 +57,9 @@ function aggregateView_(): GoogleAppsScript.HTML.HtmlOutput {
   const sheet =
     SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Aggregate");
   // FIXME: hard-coding.
-  const ranges = sanitizeRange_(sheet.getRange("A1:E4").getValues());
+  const ranges = sanitizeRange_(
+    transpose_(sheet.getRange("B1:E4").getValues())
+  );
   // FIXME: hard-coding.
   const months = sanitizeRange_(sheet.getRange("A5:B").getValues());
   const template = HtmlService.createTemplateFromFile("app/template.html");
