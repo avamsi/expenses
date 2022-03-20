@@ -4,23 +4,39 @@
     font-size: 15px;
   }
 
+  .table-wrapper {
+    overflow-x: auto;
+  }
+
   table {
-    border: 1px solid #a5a5a5;
+    border: 1px solid #a0a0a0;
     border-collapse: collapse;
     width: 100%;
   }
 
   tr {
-    border: 0.5px dashed #a1a1a1;
+    border: 1px dashed #a9a9a9;
   }
 
   td {
     min-width: 100px;
-    padding: 5px;
+    padding: 10px;
   }
 
-  .table-wrapper {
-    overflow-x: auto;
+  td a {
+    color: black;
+    display: block;
+    margin: -10px;
+    padding: 20px 10px;
+    text-decoration: none;
+  }
+
+  td a:hover {
+    background-color: #f8f8f8;
+  }
+
+  td a:active {
+    background-color: #f0f0f0;
   }
 
   td.currency {
@@ -29,6 +45,20 @@
   }
 
   td:last-child {
-    padding-right: 5px;
+    padding-right: 10px;
+  }
+
+  #floating-button {
+    background-color: #e8e8e8;
+    border: 1px solid #d3d3d3;
+    border-radius: 50px;
+    bottom: 25px;
+    font-size: 25px;
+    height: 50px;
+    padding-top: 15px;
+    position: fixed;
+    right: 25px;
+    text-align: center;
+    width: 50px;
   }
 </style>
