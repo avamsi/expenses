@@ -6,6 +6,7 @@ function doGet(
     : aggregateView_();
   output.addMetaTag("viewport", "width=device-width, initial-scale=1");
   output.addMetaTag("mobile-web-app-capable", "yes");
+  output.addMetaTag("apple-mobile-web-app-capable", "yes");
   return output;
 }
 
