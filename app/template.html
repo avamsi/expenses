@@ -5,6 +5,7 @@
     <?!= include("app/style") ?>
   </head>
   <body>
+    <?!= include("app/script") ?>
     <? for (const table of tables) { ?>
     <div class="table-wrapper">
       <table>
@@ -20,5 +21,10 @@
     <br />
     <? } ?>
     <a id="floating-button" href="">🏠</a>
+    <div id="dot-loader-wrapper">
+      <div class="dot-loader"></div>
+      <div class="dot-loader dot-loader-2"></div>
+      <div class="dot-loader dot-loader-3"></div>
+    </div>
   </body>
 </html>

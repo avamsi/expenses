@@ -61,4 +61,42 @@
     text-align: center;
     width: 50px;
   }
+
+  #dot-loader-wrapper {
+    display: none;
+    left: 50%;
+    margin-left: -40px;
+    margin-top: -15px;
+    position: fixed;
+    top: 50%;
+  }
+
+  .dot-loader {
+    animation: 1.2s grow ease-in-out infinite;
+    background-color: #e8e8e8;
+    border-radius: 50%;
+    height: 15px;
+    position: relative;
+    width: 15px;
+  }
+
+  .dot-loader-2 {
+    animation: 1.2s grow ease-in-out infinite 0.15s;
+    margin: 0 15px;
+  }
+
+  .dot-loader-3 {
+    animation: 1.2s grow ease-in-out infinite 0.3s;
+  }
+
+  @keyframes grow {
+    0%,
+    40%,
+    100% {
+      transform: scale(0);
+    }
+    40% {
+      transform: scale(1);
+    }
+  }
 </style>

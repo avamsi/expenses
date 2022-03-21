@@ -1,0 +1,15 @@
+<script>
+  function displayDotLoader_(e) {
+    console.log(e.target.tagName);
+    if (e.target.tagName !== "A") {
+      return;
+    }
+    document.getElementById("dot-loader-wrapper").style.display = "flex";
+  }
+
+  document.addEventListener(
+    "click",
+    displayDotLoader_,
+    /* useCapture= */ false
+  );
+</script>
