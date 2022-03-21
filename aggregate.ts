@@ -7,7 +7,7 @@ function refreshAggregate() {
   for (const monthlyExpenseSheet of monthlyExpenseSheets) {
     rows.push(
       [
-        monthlyExpenseSheet.getRange("A1").getValue(),
+        monthlyExpenseSheet.getName(),
         monthlyExpenseSheet.getRange("C1").getValue(),
       ].concat(monthlyExpenseSheet.getRange("E2:G2").getValues().flat())
     );
