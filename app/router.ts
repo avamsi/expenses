@@ -70,10 +70,12 @@ function aggregateView_(): GoogleAppsScript.HTML.HtmlOutput {
 
 function monthlyView_(month: string): GoogleAppsScript.HTML.HtmlOutput {
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(month);
+  // TODO: make the month cell here a dropdown?
   // FIXME: hard-coding.
   const totals = sanitizeRange_(sheet.getRange("A1:C1").getValues()).concat(
     sanitizeRange_(transpose_(sheet.getRange("E1:G2").getValues()))
   );
+  // TODO: make these sortable?
   // FIXME: hard-coding.
   const expenses = sanitizeRange_(sheet.getRange("A5:E").getValues().reverse());
   const template = HtmlService.createTemplateFromFile("app/template.html");
