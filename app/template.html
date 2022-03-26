@@ -6,20 +6,22 @@
   </head>
   <body>
     <?!= include("app/script") ?>
-    <? for (const table of tables) { ?>
-    <div class="table-wrapper">
-      <table>
-        <? for (const row of table) { ?>
-        <tr>
-          <? for (const cell of row) { ?>
-          <?!= formatCell(cell) ?>
+    <div id="content">
+      <? for (const table of tables) { ?>
+      <div class="table-wrapper">
+        <table>
+          <? for (const row of table) { ?>
+          <tr>
+            <? for (const cell of row) { ?>
+            <?!= formatCell(cell) ?>
+            <? } ?>
+          </tr>
           <? } ?>
-        </tr>
-        <? } ?>
-      </table>
+        </table>
+      </div>
+      <br />
+      <? } ?>
     </div>
-    <br />
-    <? } ?>
     <a id="floating-button" href="">🏠</a>
     <div id="dot-loader-wrapper">
       <div class="dot-loader"></div>

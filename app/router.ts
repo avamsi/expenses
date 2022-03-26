@@ -1,6 +1,9 @@
 function doGet(
   request: GoogleAppsScript.Events.DoGet
 ): GoogleAppsScript.HTML.HtmlOutput {
+  // @ts-ignore
+  fetchDayjs();
+  // TODO: is it possible to automatically create an Expenses sheet?
   const output = request.parameter["month"]
     ? monthlyView_(request.parameter["month"])
     : aggregateView_();
@@ -27,15 +30,31 @@ function formatCellAsCurrency_(amount: number) {
   return `<td class="currency">${currency}</td>`;
 }
 
+function externalLinkSvg_() {
+  return `
+<svg class="external-link" width="15px" height="15px" viewBox="0 0 24 24">
+  <g
+    stroke-width="2"
+    stroke="#0047AB"
+    fill="none"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <polyline points="17 13.5 17 19.5 5 19.5 5 7.5 11 7.5"></polyline>
+    <path d="M14,4.5 L20,4.5 L20,10.5 M20,4.5 L11,13.5"></path>
+  </g>
+</svg>`;
+}
+
 function formatCellAsMonth_(month: string) {
-  return `<td><a href="?month=${month}">${month}</a></td>`;
+  return `<td><a href="?month=${month}">${month}${externalLinkSvg_()}</a></td>`;
 }
 
 function formatCell(value: any) {
   if (typeof value === "number") {
     return formatCellAsCurrency_(value);
   }
-  if (typeof value === "string" && value.startsWith("20")) {
+  if (dayjs(value, "YYYY MMMM", true).isValid()) {
     return formatCellAsMonth_(value);
   }
   return `<td>${value}</td>`;

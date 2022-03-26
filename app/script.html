@@ -4,6 +4,7 @@
     if (e.target.tagName !== "A") {
       return;
     }
+    document.getElementById("content").style.filter = "blur(1.5px)";
     document.getElementById("dot-loader-wrapper").style.display = "flex";
   }
 
