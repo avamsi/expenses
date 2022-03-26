@@ -4,11 +4,23 @@ Import expenses from Gmail to a Google Sheet and track everything in a single pl
 
 ## Aggregate View
 
+### Sheet
+
 ![](https://github.com/avamsi/import-expenses/blob/main/screenshots/aggregate-view.png?raw=true)
+
+### App
+
+![](https://github.com/avamsi/import-expenses/blob/main/screenshots/app-aggregate-view.png?raw=true)
 
 ## Monthly View
 
+### Sheet
+
 ![](https://github.com/avamsi/import-expenses/blob/main/screenshots/monthly-view.png?raw=true)
+
+### App
+
+![](https://github.com/avamsi/import-expenses/blob/main/screenshots/app-monthly-view.png?raw=true)
 
 ## Usage
 
