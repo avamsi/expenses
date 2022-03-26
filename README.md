@@ -2,25 +2,16 @@
 
 Import expenses from Gmail to a Google Sheet and track everything in a single place without the data ever leaving your Google acccount. (Now with an experimental web app that uses said Google sheet as the data source!)
 
-## Aggregate View
+## Screenshots
+
+### App
+
+<img src="https://github.com/avamsi/import-expenses/blob/main/screenshots/app-aggregate-view.png?raw=true" width="45%"/><img src="https://github.com/avamsi/import-expenses/blob/main/screenshots/app-monthly-view.png?raw=true" width="45%"/>
 
 ### Sheet
 
 ![](https://github.com/avamsi/import-expenses/blob/main/screenshots/aggregate-view.png?raw=true)
-
-### App
-
-![](https://github.com/avamsi/import-expenses/blob/main/screenshots/app-aggregate-view.png?raw=true)
-
-## Monthly View
-
-### Sheet
-
 ![](https://github.com/avamsi/import-expenses/blob/main/screenshots/monthly-view.png?raw=true)
-
-### App
-
-![](https://github.com/avamsi/import-expenses/blob/main/screenshots/app-monthly-view.png?raw=true)
 
 ## Usage
 
