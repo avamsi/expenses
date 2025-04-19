@@ -6,7 +6,7 @@ class Expense {
     private readonly merchant: string,
     private readonly amount: number,
     private readonly means: string,
-    readonly identifier: string
+    readonly identifier: string,
   ) {}
 
   dateFormattedAs(format: string): string {
@@ -33,7 +33,7 @@ abstract class GmailMessageToExpense {
   constructor(message: GoogleAppsScript.Gmail.GmailMessage) {
     this.identifier = message.getHeader("Message-ID");
     this.rawExtract = this.pattern().exec(
-      message.getPlainBody().split(/\s+/).join(" ")
+      message.getPlainBody().split(/\s+/).join(" "),
     )?.groups;
   }
 
@@ -50,7 +50,7 @@ abstract class GmailMessageToExpense {
       this.rawExtract["merchant"].toUpperCase(),
       this.parsedAmount(),
       this.means(),
-      this.identifier
+      this.identifier,
     );
   }
 
@@ -84,7 +84,7 @@ class AxisCreditCard extends GmailMessageToExpense {
   protected pattern(): RegExp {
     return new RegExp(
       `${AxisCreditCard.cardPattern} ${AxisCreditCard.amountPattern} ` +
-        `${AxisCreditCard.merchantPattern} ${AxisCreditCard.datePattern}`
+        `${AxisCreditCard.merchantPattern} ${AxisCreditCard.datePattern}`,
     );
   }
 
@@ -109,7 +109,7 @@ class AxisCreditCardOld extends GmailMessageToExpense {
   protected pattern(): RegExp {
     return new RegExp(
       `${AxisCreditCardOld.amountPattern} on your ${AxisCreditCardOld.cardPattern} ` +
-        `${AxisCreditCardOld.datePattern} ${AxisCreditCardOld.merchantPattern}`
+        `${AxisCreditCardOld.datePattern} ${AxisCreditCardOld.merchantPattern}`,
     );
   }
 
@@ -143,7 +143,7 @@ class HdfcCreditCardDebit extends HdfcCreditCard {
   protected pattern(): RegExp {
     return new RegExp(
       `${HdfcCreditCard.cardPattern} for ${HdfcCreditCard.amountPattern} ` +
-        `${HdfcCreditCard.merchantPattern} ${HdfcCreditCard.datePattern}`
+        `${HdfcCreditCard.merchantPattern} ${HdfcCreditCard.datePattern}`,
     );
   }
 }
@@ -153,7 +153,7 @@ class HdfcCreditCardDebitReversal extends HdfcCreditCard {
     return new RegExp(
       `${HdfcCreditCard.amountPattern}, on your ${HdfcCreditCard.cardPattern} ` +
         `${HdfcCreditCard.merchantPattern} ${HdfcCreditCard.datePattern} ` +
-        `(?:is|(?:has been)) (?<reversal>reversed)`
+        `(?:is|(?:has been)) (?<reversal>reversed)`,
     );
   }
 }
@@ -182,7 +182,7 @@ class IciciCreditCardDebit extends IciciCreditCard {
       `${IciciCreditCard.cardPattern} has been used for ` +
         `a transaction of ${IciciCreditCard.amountPattern} ` +
         `${IciciCreditCard.datePattern}; \\d{2}:\\d{2}:\\d{2}. ` +
-        IciciCreditCardDebit.merchantPattern
+        IciciCreditCardDebit.merchantPattern,
     );
   }
 }
@@ -195,7 +195,7 @@ class IciciCreditCardDebitReversal extends IciciCreditCard {
     return new RegExp(
       `(?<reversal>refund on your) ${IciciCreditCard.cardPattern} ` +
         `for ${IciciCreditCard.amountPattern} ${IciciCreditCard.datePattern} ` +
-        IciciCreditCardDebitReversal.merchantPattern
+        IciciCreditCardDebitReversal.merchantPattern,
     );
   }
 }
@@ -203,8 +203,8 @@ class IciciCreditCardDebitReversal extends IciciCreditCard {
 function tryGmailMessageToExpense_(
   message: GoogleAppsScript.Gmail.GmailMessage,
   messageToExpenseClasses: (new (
-    _: GoogleAppsScript.Gmail.GmailMessage
-  ) => GmailMessageToExpense)[]
+    _: GoogleAppsScript.Gmail.GmailMessage,
+  ) => GmailMessageToExpense)[],
 ): Expense {
   for (const messageToExpenseClass of messageToExpenseClasses) {
     const messageToExpenseInstance = new messageToExpenseClass(message);
@@ -216,7 +216,7 @@ function tryGmailMessageToExpense_(
 }
 
 function getExpensesByMonth_(
-  restrictToRecent: boolean
+  restrictToRecent: boolean,
 ): Map<string, Expense[]> {
   const expensesByMonth = new Map();
   const sources = [
@@ -252,7 +252,7 @@ function getExpensesByMonth_(
       for (const message of thread.getMessages()) {
         const expense = tryGmailMessageToExpense_(
           message,
-          source.messageToExpenseClasses
+          source.messageToExpenseClasses,
         );
         if (expense != null) {
           const month = expense.dateFormattedAs("YYYY MMMM");
@@ -268,7 +268,7 @@ function getExpensesByMonth_(
 }
 
 function getOrCreateExpenseSheetByName_(
-  name: string
+  name: string,
 ): GoogleAppsScript.Spreadsheet.Sheet {
   const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
   const sheet = spreadsheet.getSheetByName(name);
@@ -296,10 +296,10 @@ function importExpenses_(restrictToRecent: boolean) {
         sheet
           .getRange(`G${HEADER_SIZE.rows + 1}:G`)
           .getValues()
-          .flat()
+          .flat(),
       );
       const newExpenses = expenses.filter(
-        (expense) => !existingExpenses.has(expense.identifier)
+        (expense) => !existingExpenses.has(expense.identifier),
       );
       if (newExpenses.length > 0) {
         sheet
@@ -307,7 +307,7 @@ function importExpenses_(restrictToRecent: boolean) {
             lastRow + 1,
             /* column= */ 1,
             /* numRows= */ newExpenses.length,
-            /* numColumns= */ HEADER_SIZE.columns
+            /* numColumns= */ HEADER_SIZE.columns,
           )
           .setValues(newExpenses.map((expense) => expense.asArray()));
         // FIXME: hard-coding.

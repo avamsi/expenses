@@ -1,5 +1,5 @@
 function doGet(
-  request: GoogleAppsScript.Events.DoGet
+  request: GoogleAppsScript.Events.DoGet,
 ): GoogleAppsScript.HTML.HtmlOutput {
   // @ts-ignore
   fetchDayjs();
@@ -78,7 +78,7 @@ function aggregateView_(): GoogleAppsScript.HTML.HtmlOutput {
     SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Aggregate");
   // FIXME: hard-coding.
   const ranges = sanitizeRange_(
-    transpose_(sheet.getRange("B1:E4").getValues())
+    transpose_(sheet.getRange("B1:E4").getValues()),
   );
   // FIXME: hard-coding.
   const months = sanitizeRange_(sheet.getRange("A5:B").getValues());
@@ -92,7 +92,7 @@ function monthlyView_(month: string): GoogleAppsScript.HTML.HtmlOutput {
   // TODO: make the month cell here a dropdown?
   // FIXME: hard-coding.
   const totals = sanitizeRange_(sheet.getRange("A1:C1").getValues()).concat(
-    sanitizeRange_(transpose_(sheet.getRange("E1:G2").getValues()))
+    sanitizeRange_(transpose_(sheet.getRange("E1:G2").getValues())),
   );
   // TODO: make these sortable?
   // FIXME: hard-coding.

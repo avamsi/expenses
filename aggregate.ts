@@ -9,7 +9,7 @@ function refreshAggregate() {
       [
         monthlyExpenseSheet.getName(),
         monthlyExpenseSheet.getRange("C1").getValue(),
-      ].concat(monthlyExpenseSheet.getRange("E2:G2").getValues().flat())
+      ].concat(monthlyExpenseSheet.getRange("E2:G2").getValues().flat()),
     );
   }
   spreadsheet
@@ -18,7 +18,7 @@ function refreshAggregate() {
       /* row= */ 5,
       /* column= */ 1,
       /* numRows= */ rows.length,
-      /* numColumns= */ rows[0].length
+      /* numColumns= */ rows[0].length,
     )
     .setValues(rows);
 }

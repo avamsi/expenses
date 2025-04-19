@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <base href="<?!= baseUrl() ?>" target="_top" />
@@ -12,9 +12,7 @@
         <table>
           <? for (const row of table) { ?>
           <tr>
-            <? for (const cell of row) { ?>
-            <?!= formatCell(cell) ?>
-            <? } ?>
+            <? for (const cell of row) { ?> <?!= formatCell(cell) ?> <? } ?>
           </tr>
           <? } ?>
         </table>

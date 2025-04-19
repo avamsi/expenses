@@ -16,7 +16,7 @@ function sortSheets() {
   const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
   const sheets = spreadsheet.getSheets();
   sheets.sort((a, b) =>
-    monthNameToNumber(a.getName()) > monthNameToNumber(b.getName()) ? -1 : 1
+    monthNameToNumber(a.getName()) > monthNameToNumber(b.getName()) ? -1 : 1,
   );
   for (let i = 0; i < sheets.length; i++) {
     spreadsheet.setActiveSheet(sheets[i]);
