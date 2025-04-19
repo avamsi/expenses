@@ -28,7 +28,7 @@ Import expenses from Gmail to a Google Sheet and track everything in a single pl
 4. Apps Script will ask you to review permissions at this point.
    - Click on "Review permissions" and select your Google account.
    - Google correctly warns you that this is an unverified app (I'm not really sure how to "verify" it TBH).
-     - The script has no interaction with the outside world other than to download a library called "dayjs" and the only changes it does make are to the Google Sheet you just created.
+     - The script has no interaction with the outside world other than to download a library called "dayjs" and the only changes it does make are to the Google Sheet you just created (TODO: document optional expense categorization using Gemini).
      - To proceed, click on "Advanced" and then "Go to expenses (unsafe)".
    - I'm not sure why Google defaults to scary sounding "Read, compose, send, and permanently delete all your email from Gmail" when the script just reads email.
      - Similarly, the script doesn't change any Google Sheets other than the one you just created.

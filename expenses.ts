@@ -2,9 +2,9 @@ class Expense {
   constructor(
     // @ts-ignore
     private readonly date: dayjs.Dayjs,
-    private readonly category: string,
-    private readonly merchant: string,
-    private readonly amount: number,
+    public category: string | null,
+    readonly merchant: string,
+    readonly amount: number,
     private readonly means: string,
     readonly identifier: string,
   ) {}
@@ -46,7 +46,7 @@ abstract class GmailMessageToExpense {
     let date = dayjs(this.rawExtract["date"], this.dateFormat(), true);
     return new Expense(
       date,
-      this.category(),
+      /* category= */ null,
       this.rawExtract["merchant"].toUpperCase(),
       this.parsedAmount(),
       this.means(),
@@ -59,10 +59,6 @@ abstract class GmailMessageToExpense {
 
   protected means(): string {
     return this.rawExtract["means"];
-  }
-
-  private category(): string {
-    return null;
   }
 
   private parsedAmount(): number {
@@ -302,6 +298,8 @@ function importExpenses_(restrictToRecent: boolean) {
         (expense) => !existingExpenses.has(expense.identifier),
       );
       if (newExpenses.length > 0) {
+        // @ts-ignore
+        categorize(newExpenses);
         sheet
           .getRange(
             lastRow + 1,
