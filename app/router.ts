@@ -3,6 +3,10 @@ function doGet(
 ): GoogleAppsScript.HTML.HtmlOutput {
   // @ts-ignore
   fetchDayjs();
+  if (request.parameter["refresh"] === "true") {
+    // @ts-ignore
+    incrementalRefresh();
+  }
   // TODO: is it possible to automatically create an Expenses sheet?
   const output = request.parameter["month"]
     ? monthlyView_(request.parameter["month"])
