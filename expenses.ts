@@ -34,7 +34,7 @@ abstract class GmailMessageToExpense {
     this.identifier = message.getHeader("Message-ID");
     this.rawExtract = this.pattern().exec(
       message.getPlainBody().split(/\s+/).join(" "),
-    )?.groups;
+    )?.groups!;
   }
 
   ok(): boolean {
@@ -205,7 +205,7 @@ function tryGmailMessageToExpense_(
   messageToExpenseClasses: (new (
     _: GoogleAppsScript.Gmail.GmailMessage,
   ) => GmailMessageToExpense)[],
-): Expense {
+): Expense | null {
   for (const messageToExpenseClass of messageToExpenseClasses) {
     const messageToExpenseInstance = new messageToExpenseClass(message);
     if (messageToExpenseInstance.ok()) {
@@ -277,7 +277,7 @@ function getOrCreateExpenseSheetByName_(
   }
   // FIXME: hard-coding.
   return spreadsheet.insertSheet(name, 3, {
-    template: spreadsheet.getSheetByName("Template"),
+    template: spreadsheet.getSheetByName("Template")!,
   });
 }
 

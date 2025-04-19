@@ -54,6 +54,7 @@ function formatCell(value: any) {
   if (typeof value === "number") {
     return formatCellAsCurrency_(value);
   }
+  // @ts-ignore
   if (dayjs(value, "YYYY MMMM", true).isValid()) {
     return formatCellAsMonth_(value);
   }
@@ -75,7 +76,7 @@ function sanitizeRange_(range: any[][]) {
 
 function aggregateView_(): GoogleAppsScript.HTML.HtmlOutput {
   const sheet =
-    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Aggregate");
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Aggregate")!;
   // FIXME: hard-coding.
   const ranges = sanitizeRange_(
     transpose_(sheet.getRange("B1:E4").getValues()),
@@ -88,7 +89,7 @@ function aggregateView_(): GoogleAppsScript.HTML.HtmlOutput {
 }
 
 function monthlyView_(month: string): GoogleAppsScript.HTML.HtmlOutput {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(month);
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(month)!;
   // TODO: make the month cell here a dropdown?
   // FIXME: hard-coding.
   const totals = sanitizeRange_(sheet.getRange("A1:C1").getValues()).concat(

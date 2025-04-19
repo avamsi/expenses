@@ -3,7 +3,7 @@ function refreshAggregate() {
   const monthlyExpenseSheets = spreadsheet
     .getSheets()
     .filter((sheet) => sheet.getName().startsWith("20"));
-  const rows = [];
+  const rows: any[][] = [];
   for (const monthlyExpenseSheet of monthlyExpenseSheets) {
     rows.push(
       [
@@ -13,7 +13,7 @@ function refreshAggregate() {
     );
   }
   spreadsheet
-    .getSheetByName("Aggregate")
+    .getSheetByName("Aggregate")!
     .getRange(
       /* row= */ 5,
       /* column= */ 1,
